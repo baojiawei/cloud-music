@@ -3,6 +3,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 # cloud-music
 基于react hook与Immutable数据流 网易云音乐项目
 
+#tips
+本项目原作者：神三元
+git传送门：https://github.com/sanyuan0704
+
 ## Available Scripts
 
 In the project directory, you can run:
