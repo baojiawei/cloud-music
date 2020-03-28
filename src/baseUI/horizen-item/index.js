@@ -1,17 +1,27 @@
-import React, { useState, useRef, useEffect, memo } from 'react';
-import styled from 'styled-components';
-import Scroll from '../scroll/index'
+import React, { useRef, useEffect, memo } from 'react';
+import Scroll from '../Scroll/index'
 import { PropTypes } from 'prop-types';
 import { ListItem, List } from './style';
-
 
 function Horizen(props) {
   const { list, oldVal, title } = props
   const { handleClick } = props
+  const Category = useRef(null)
+
+  // 加入内部容器宽度的逻辑
+  useEffect(() => {
+    let categoryDom = Category.current
+    let tagElems = categoryDom.querySelectorAll("span")
+    let totalWidth = 0
+    Array.from(tagElems).forEach((ele) => {
+      totalWidth += ele.offsetWidth
+    })
+    categoryDom.style.width = `${totalWidth}px`
+  }, [])
 
   return (
     <Scroll direction="horizental">
-      <div>
+      <div ref={Category}>
         <List>
           <span>{title}</span>
           {
@@ -19,7 +29,7 @@ function Horizen(props) {
               return (
                 <ListItem
                   key={item.key}
-                  className={`${oldVal === item.key}? 'selected': ''`}
+                  className={`${oldVal === item.key? 'selected': ''}`}
                   onClick={() => handleClick(item.key)}>
                   {item.name}
                 </ListItem>

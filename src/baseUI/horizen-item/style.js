@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import style from '../../assets/global-style';
 
-const List = styled.div`
+export const List = styled.div`
   display: flex;
   align-items: center;
   height: 30px;
@@ -12,22 +12,18 @@ const List = styled.div`
     padding: 5px 0;
     margin-right: 5px;
     color: grey;
-    font-size: ${style ["font-size-m"]};
+    font-size: ${style["font-size-m"]};
     vertical-align: middle;
   }
 `
-const ListItem = styled.span`
+export const ListItem = styled.span`
   flex: 0 0 auto;
-  font-size: ${style ["font-size-m"]};
+  font-size: ${style["font-size-m"]};
   padding: 5px 8px;
   border-radius: 10px;
   &.selected {
-    color: ${style ["theme-color"]};
-    border: 1px solid ${style ["theme-color"]};
+    color: ${style["theme-color"]};
+    border: 1px solid ${style["theme-color"]};
     opacity: 0.8;
   }
 `
-export {
-  List,
-  ListItem
-}
