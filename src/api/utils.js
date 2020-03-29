@@ -13,7 +13,6 @@ export const getCount = (count) => {
 export const debounce = (func, delay) => {
   let timer
   return (...args) => {
-    console.log(args)
     if(timer) {
       clearTimeout(timer)
     }
