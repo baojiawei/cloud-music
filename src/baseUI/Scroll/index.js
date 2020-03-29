@@ -1,19 +1,49 @@
-import React, { forwardRef, useState, useEffect, useRef, useImperativeHandle } from 'react'
+import React, { forwardRef, useState, useEffect, useRef, useMemo, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
 import BScroll from 'better-scroll'
 import styled from 'styled-components'
+import Loading from '../Loading';
+import LoadingV2 from '../Loading-v2';
+import { debounce } from "../../api/utils";
 
 const ScrollContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
 `
+const PullUpLoading = styled.div`
+  position: absolute;
+  left:0; right:0;
+  bottom: 5px;
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  z-index: 100;
+`;
+
+export const PullDownLoading = styled.div`
+  position: absolute;
+  left:0; right:0;
+  top: 0px;
+  height: 30px;
+  margin: auto;
+  z-index: 100;
+`;
 
 const Scroll = forwardRef((props, ref) => {
   const [bScroll, setBScroll] = useState();
   const scrollContainerRef = useRef();
   const { direction, click, refresh, bounceTop, bounceBottom } = props;
   const { pullUp, pullDown, onScroll } = props;
+  const { pullUpLoading, pullDownLoading } = props;
+
+  let pullUpDebounce = useMemo(() => {
+    return debounce(pullUp, 300)
+  }, [pullUp])
+
+  let pullDownDebounce = useMemo(() => {
+    return debounce(pullDown, 300)
+  }, [pullDown])
 
   useEffect(() => {
     const scroll = new BScroll(scrollContainerRef.current, {
@@ -47,7 +77,7 @@ const Scroll = forwardRef((props, ref) => {
     if (!bScroll || !pullUp) return;
     bScroll.on('scrollEnd', () => {
       if (bScroll.y <= bScroll.maxScrollY + 100) {
-        pullUp();
+        pullUpDebounce()
       }
     })
     return () => {
@@ -59,7 +89,7 @@ const Scroll = forwardRef((props, ref) => {
     if (!bScroll || !pullDown) return;
     bScroll.on('touchEnd', (pos) => {
       if (pos.y > 50) {
-        pullDown();
+        pullDownDebounce()
       }
     })
     return () => {
@@ -86,10 +116,15 @@ const Scroll = forwardRef((props, ref) => {
       }
     }
   }))
-
+  const PullUpDisplayStyle = pullUpLoading ? { display: "" } : { display: "none" };
+  const PullDownDisplayStyle = pullDownLoading ? { display: "" } : { display: "none" };
   return (
     <ScrollContainer ref={scrollContainerRef}>
       {props.children}
+      {/* 滑到底部加载动画 */}
+      <PullUpLoading style={PullUpDisplayStyle}><Loading></Loading></PullUpLoading>
+      {/* 顶部下拉刷新动画 */}
+      <PullDownLoading style={PullDownDisplayStyle}><LoadingV2></LoadingV2></PullDownLoading>
     </ScrollContainer>
   )
 
@@ -99,7 +134,7 @@ Scroll.defaultProps = {
   direction: "vertical",
   click: true,
   refresh: true,
-  onScroll:null,
+  onScroll: null,
   pullUpLoading: false,
   pullDownLoading: false,
   pullUp: null,
@@ -109,7 +144,7 @@ Scroll.defaultProps = {
 };
 
 Scroll.propTypes = {
-  direction: PropTypes.oneOf (['vertical', 'horizental']),
+  direction: PropTypes.oneOf(['vertical', 'horizental']),
   refresh: PropTypes.bool,
   onScroll: PropTypes.func,
   pullUp: PropTypes.func,

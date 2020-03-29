@@ -8,3 +8,18 @@ export const getCount = (count) => {
     return Math.floor (count / 10000000)/ 10 + "亿";
   }
 }
+
+//防抖函数
+export const debounce = (func, delay) => {
+  let timer
+  return (...args) => {
+    console.log(args)
+    if(timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      func.apply(this,args)
+      clearTimeout(timer)
+    },delay)
+  }
+}
