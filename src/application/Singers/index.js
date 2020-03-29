@@ -45,6 +45,7 @@ function Singers(props) {
   const handlePullDown = () => {
     pullDownRefreshDispatch(category, alpha);
   };
+
   // 渲染函数，返回歌手列表
   const renderSingerList = () => {
     const list = singerList ? singerList.toJS() : [];
