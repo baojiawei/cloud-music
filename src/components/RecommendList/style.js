@@ -16,6 +16,10 @@ export const List = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  &:after {
+    content: "";
+    flex: auto;
+  }
 `;
 
 export const ListItem = styled.div`

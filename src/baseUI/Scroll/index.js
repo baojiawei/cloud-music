@@ -83,6 +83,7 @@ const Scroll = forwardRef((props, ref) => {
     return () => {
       bScroll.off('scrollEnd');
     }
+    // eslint-disable-next-line
   }, [pullUp, bScroll])
 
   useEffect(() => {
@@ -95,6 +96,7 @@ const Scroll = forwardRef((props, ref) => {
     return () => {
       bScroll.off('touchEnd');
     }
+    // eslint-disable-next-line
   }, [pullDown, bScroll])
 
   useEffect(() => {
