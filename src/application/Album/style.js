@@ -8,7 +8,7 @@ export const Container = styled.div`
   right: 0;
   bottom: 0;
   z-index: 1000;
-  background: ${style["background-color"]};
+  background: #fff;
   transform-origin: right bottom;
   &.fly-enter, &.fly-appear {
     transform: rotateZ(30deg) translate3d(100%, 0, 0);
