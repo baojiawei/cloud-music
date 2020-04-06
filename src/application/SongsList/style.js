@@ -3,7 +3,7 @@ import style from '../../assets/global-style';
 export const SongList = styled.div`
   border-radius: 10px;
   opacity: 0.98;
-  ${props => props.showBackground ? `background: ${style["highlight-background-color"]}`: ""};
+  ${props => props.showBackground ? `backgroundc: ${style["highlight-background-color"]}`: ""};
   .first_line{
     box-sizing: border-box;
     padding: 10px 0;
