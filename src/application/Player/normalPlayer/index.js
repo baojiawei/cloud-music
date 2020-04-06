@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { getName } from "../../../api/utils";
+import React, {useRef} from "react";
+import {  getName, formatPlayTime } from "../../../api/utils";
 import {
   NormalPlayerContainer,
   Top,
@@ -9,19 +9,38 @@ import {
   CDWrapper,
   ProgressWrapper
 } from "./style";
-import { CSSTransition } from 'react-transition-group'
-import animations from "create-keyframe-animation";
+import { CSSTransition } from "react-transition-group";
 import { prefixStyle } from "../../../api/utils";
+import animations from "create-keyframe-animation";
 import ProgressBar from "../../../baseUI/Progress-bar";
+import { playMode } from './../../../api/config';
+
 
 function NormalPlayer(props) {
-  const { song, fullScreen } = props;
-  const { toggleFullScreen } = props;
+  const {
+    fullScreen,
+    song,
+    mode,
+    playing,
+    percent,
+    currentTime,
+    duration,
+  } = props;
+
+  const {
+    changeMode,
+    handlePrev,
+    handleNext,
+    onProgressChange,
+    clickPlaying,
+    toggleFullScreen
+  } = props;
+
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
+  
   const transform = prefixStyle("transform");
 
-  // 计算偏移的辅助函数
   const _getPosAndScale = () => {
     const targetWidth = 40;
     const paddingLeft = 40;
@@ -38,10 +57,9 @@ function NormalPlayer(props) {
       scale
     };
   };
-
   const enter = () => {
     normalPlayerRef.current.style.display = "block";
-    const { x, y, scale } = _getPosAndScale();// 获取 miniPlayer 图片中心相对 normalPlayer 唱片中心的偏移
+    const { x, y, scale } = _getPosAndScale();//获取miniPlayer图片中心相对normalPlayer唱片中心的偏移
     let animation = {
       0: {
         transform: `translate3d(${x}px,${y}px,0) scale(${scale})`
@@ -84,9 +102,19 @@ function NormalPlayer(props) {
     const cdWrapperDom = cdWrapperRef.current;
     cdWrapperDom.style.transition = "";
     cdWrapperDom.style[transform] = "";
-    // 一定要注意现在要把 normalPlayer 这个 DOM 给隐藏掉，因为 CSSTransition 的工作只是把动画执行一遍 
-    // 不置为 none 现在全屏播放器页面还是存在
     normalPlayerRef.current.style.display = "none";
+  };
+
+  const getPlayMode = () => {
+    let content;
+    if (mode === playMode.sequence) {
+      content = "&#xe625;";
+    } else if (mode === playMode.loop) {
+      content = "&#xe653;";
+    } else {
+      content = "&#xe61b;";
+    }
+    return content;
   };
 
   return (
@@ -111,7 +139,7 @@ function NormalPlayer(props) {
         </div>
         <div className="background layer"></div>
         <Top className="top">
-          <div className="back" onClick={() => toggleFullScreen(false)}>
+          <div className="back"  onClick={() => toggleFullScreen(false)}>
             <i className="iconfont icon-back">&#xe662;</i>
           </div>
           <h1 className="title">{song.name}</h1>
@@ -120,33 +148,45 @@ function NormalPlayer(props) {
         <Middle ref={cdWrapperRef}>
           <CDWrapper>
             <div className="cd">
-              <img
-                className="image play"
-                src={song.al.picUrl + "?param=400x400"}
-                alt=""
-              />
+            <img
+              className={`image play ${playing ? "" : "pause"}`}
+              src={song.al.picUrl + "?param=400x400"}
+              alt=""
+            />
             </div>
           </CDWrapper>
         </Middle>
         <Bottom className="bottom">
           <ProgressWrapper>
-            <span className="time time-l">0:00</span>
+            <span className="time time-l">{formatPlayTime(currentTime)}</span>
             <div className="progress-bar-wrapper">
-              <ProgressBar percent={0.2}></ProgressBar>
+              <ProgressBar
+                percent={percent}
+                percentChange={onProgressChange}
+              ></ProgressBar>
             </div>
-            <div className="time time-r">4:17</div>
+            <div className="time time-r">{formatPlayTime(duration)}</div>
           </ProgressWrapper>
           <Operators>
-            <div className="icon i-left" >
-              <i className="iconfont">&#xe625;</i>
+            <div className="icon i-left" onClick={changeMode}>
+              <i
+                className="iconfont"
+                dangerouslySetInnerHTML={{ __html: getPlayMode() }}
+              ></i>
             </div>
-            <div className="icon i-left">
+            <div className="icon i-left" onClick={handlePrev}>
               <i className="iconfont">&#xe6e1;</i>
             </div>
             <div className="icon i-center">
-              <i className="iconfont">&#xe723;</i>
+              <i
+                className="iconfont"
+                onClick={e => clickPlaying(e, !playing)}
+                dangerouslySetInnerHTML={{
+                  __html: playing ? "&#xe723;" : "&#xe731;"
+                }}
+              ></i>
             </div>
-            <div className="icon i-right">
+            <div className="icon i-right" onClick={handleNext}>
               <i className="iconfont">&#xe718;</i>
             </div>
             <div className="icon i-right">
@@ -158,4 +198,5 @@ function NormalPlayer(props) {
     </CSSTransition>
   );
 }
+
 export default React.memo(NormalPlayer);
