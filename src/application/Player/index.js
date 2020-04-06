@@ -2,6 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import MiniPlayer from './miniPlayer';
+import NormalPlayer from './normalPlayer';
 import {
   changePlayingState,
   changeShowPlayList,
@@ -18,9 +19,21 @@ function Player(props) {
     name: "木偶人",
     ar: [{name: "薛之谦"}]
   }
+  const { fullScreen } = props;
+
+  const { toggleFullScreenDispatch } = props;
   return (
-    <div>
-      <MiniPlayer song={currentSong}/>
+    <div> 
+      <MiniPlayer
+        song={currentSong}
+        fullScreen={fullScreen}
+        toggleFullScreen={toggleFullScreenDispatch}
+      />
+      <NormalPlayer 
+        song={currentSong}
+        fullScreen={fullScreen}
+        toggleFullScreen={toggleFullScreenDispatch}
+      />
     </div>
   )
 }
