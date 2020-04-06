@@ -13,6 +13,7 @@ import SongsList from '../SongsList';
 import MusicNote from "../../baseUI/Music-note/index";
 
 function Album(props) {
+  const { songsCount } = props;
   const [showStatus, setShowStatus] = useState(true);
   const [title, setTitle] = useState("歌单");
   const [isMarquee, setIsMarquee] = useState(false);//是否跑马灯
@@ -20,7 +21,7 @@ function Album(props) {
   const headerEl = useRef();
   const musicNoteRef = useRef();
 
-  const { currentAlbum: currentAlbumImmutable, enterLoading, songsCount } = props;
+  const { currentAlbum: currentAlbumImmutable, enterLoading } = props;
   const { getAlbumDataDispatch } = props;
 
   const id = props.match.params.id;

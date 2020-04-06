@@ -161,6 +161,10 @@ function Player(props) {
       handleNext();
     }
   };
+
+  const handleError = () => {
+    alert ("播放出错");
+  };
   return (
     <div>
       { isEmptyObject(currentSong) ? null : (
@@ -196,6 +200,7 @@ function Player(props) {
         ref={audioRef}
         onTimeUpdate={updateTime}
         onEnded={handleEnd}
+        onError={handleError}
       ></audio>
       <Toast text={modeText} ref={toastRef}></Toast>  
     </div>
