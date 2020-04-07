@@ -119,7 +119,7 @@ export const CDWrapper = styled.div`
       height: 100%;
       box-sizing: border-box;
       border-radius: 50%;
-      border: 10px solid rgba (255, 255, 255, 0.1);
+      border: 10px solid rgba(255, 255, 255, 0.1);
     }
     .play {
       animation: ${rotate} 20s linear infinite;
@@ -134,7 +134,7 @@ export const CDWrapper = styled.div`
     line-height: 20px;
     white-space: normal;
     text-align: center;
-    color: rgba (255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
   }
 `;
 
@@ -196,5 +196,33 @@ export const Operators = styled.div`
   }
   .icon-favorite {
     color: ${style["theme-color"]};
+  }
+`;
+export const LyricContainer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+`;
+export const LyricWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  p {
+    line-height: 32px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: normal;
+    font-size: ${style["font-size-l"]};
+    &.current {
+      color: #fff;
+    }
+    &.pure{
+      position: relative;
+      top: 30vh;
+    }
   }
 `;
