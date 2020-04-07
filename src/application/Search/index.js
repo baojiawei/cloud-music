@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import SearchBox from './../../baseUI/search-box/index';
+import SearchBox from './../../baseUI/Search-box/index';
 import { getHotKeyWords, changeEnterLoading, getSuggestList } from './store/actionCreators';
 import { connect } from 'react-redux';
 import { getSongDetail } from './../Player/store/actionCreators';
 import { Container, ShortcutWrapper, HotKey } from './style';
-import Scroll from '../../baseUI/scroll';
-import Loading from './../../baseUI/loading/index';
+import Scroll from '../../baseUI/Scroll';
+import Loading from './../../baseUI/Loading/index';
 import LazyLoad, {forceCheck} from 'react-lazyload';
 import { List, ListItem, SongItem } from './style';
 import { getName } from '../../api/utils';
-import MusicalNote from '../../baseUI/music-note';
+import MusicalNote from '../../baseUI/Music-note';
 
 function Search(props) {
   const [show, setShow] = useState(false);
@@ -141,7 +141,6 @@ function Search(props) {
 
   const selectItem = (e, id) => {
     getSongDetailDispatch(id);
-    console.log(e);
     musicNoteRef.current.startAnimation({x:e.nativeEvent.clientX, y:e.nativeEvent.clientY});
   }
   return (
