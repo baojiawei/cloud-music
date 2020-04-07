@@ -1,7 +1,7 @@
 import React, {useRef, useState, useEffect, useMemo} from 'react';
 import styled from 'styled-components';
 import style from '../../assets/global-style';
-import { debounce } from '../../api/utils';
+import { debounce } from './../../api/utils';
 
 const SearchBoxWrapper = styled.div`
   display: flex;

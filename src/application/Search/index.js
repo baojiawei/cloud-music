@@ -37,7 +37,6 @@ function Search(props) {
   useEffect(() => {
     setShow(true);
     //用了redux缓存，不再赘述
-    console.log(hotList)
     if(!hotList.size)
       getHotKeyWordsDispatch();
     // eslint-disable-next-line
