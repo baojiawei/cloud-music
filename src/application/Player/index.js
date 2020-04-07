@@ -14,6 +14,7 @@ import NormalPlayer from './normalPlayer';
 import { getSongUrl, isEmptyObject, shuffle, findIndex } from "../../api/utils";
 import { playMode } from '../../api/config';
 import Toast from "./../../baseUI/Toast";
+import PlayList from './play-list/index';
 
 function Player(props) {
   //目前播放时间
@@ -37,7 +38,8 @@ function Player(props) {
     playList:immutablePlayList,
     mode,//播放模式
     sequencePlayList:immutableSequencePlayList,//顺序列表
-    fullScreen
+    fullScreen,
+    togglePlayListDispatch
   } = props;
   
   const {
@@ -175,6 +177,7 @@ function Player(props) {
           toggleFullScreen={toggleFullScreenDispatch}
           clickPlaying={clickPlaying}
           percent={percent}
+          togglePlayList={togglePlayListDispatch}
         /> 
         )
       }
@@ -193,6 +196,7 @@ function Player(props) {
           onProgressChange={onProgressChange}
           handlePrev={handlePrev}
           handleNext={handleNext}
+          togglePlayList={togglePlayListDispatch}
         />
         )
       }
@@ -202,6 +206,7 @@ function Player(props) {
         onEnded={handleEnd}
         onError={handleError}
       ></audio>
+      <PlayList></PlayList>
       <Toast text={modeText} ref={toastRef}></Toast>  
     </div>
   )
